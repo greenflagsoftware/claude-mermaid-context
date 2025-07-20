@@ -1,0 +1,15 @@
+classDiagram
+direction TB
+    class UserRegistration {
+	    + string Username
+	    + string Password
+	    + string PasswordConfirmation
+	    + string EmailAddress
+	    + string EmailAddressConfirmation
+	    + bool IsSaved
+	    + bool IsEmailValid
+	    + bool IsPasswordValid
+	    + bool IsExistingUser
+	    + List:string ValidationErrors
+	    + List:string ValidateFields()
+    }

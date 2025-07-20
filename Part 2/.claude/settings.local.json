@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mkdir:*)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" new sln -n Commerce)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" new classlib -n Commerce.Shared)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" new classlib -n Commerce.Integration.Tests)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" new classlib -n Commerce.Unit.Tests)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" new console -n Commerce.ConsoleRunner)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" sln Commerce.sln add Commerce.Shared/Commerce.Shared.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" sln Commerce.sln add Commerce.Integration.Tests/Commerce.Integration.Tests.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" sln Commerce.sln add Commerce.Unit.Tests/Commerce.Unit.Tests.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" sln Commerce.sln add Commerce.ConsoleRunner/Commerce.ConsoleRunner.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" add Commerce.Integration.Tests/Commerce.Integration.Tests.csproj reference Commerce.Shared/Commerce.Shared.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" add Commerce.Unit.Tests/Commerce.Unit.Tests.csproj reference Commerce.Shared/Commerce.Shared.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" add Commerce.ConsoleRunner/Commerce.ConsoleRunner.csproj reference Commerce.Shared/Commerce.Shared.csproj)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" build)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" add Commerce.Unit.Tests/Commerce.Unit.Tests.csproj package xunit)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" add Commerce.Unit.Tests/Commerce.Unit.Tests.csproj package xunit.runner.visualstudio)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" add Commerce.Unit.Tests/Commerce.Unit.Tests.csproj package Microsoft.NET.Test.Sdk)",
+      "Bash(\"/mnt/c/Program Files/dotnet/dotnet.exe\" test Commerce.Unit.Tests/Commerce.Unit.Tests.csproj)"
+    ],
+    "deny": []
+  }
+}
