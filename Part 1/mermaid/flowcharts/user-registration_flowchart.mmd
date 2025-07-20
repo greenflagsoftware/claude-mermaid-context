@@ -1,0 +1,45 @@
+%%{init: {'securityLevel': 'antiscript'}}%%
+
+flowchart TD
+    accTitle: User Registration Workflow
+    accDescr: Complete user registration process with input validation, password complexity checks, user existence verification, and email confirmation
+
+    Start([Start User Registration]) --> Input[INPUT username, email, password]
+    
+    Input --> ValidateInput{ValidateUserInput}
+    ValidateInput -->|isValid = FALSE| LogInputError[LogError: Input validation failed]
+    LogInputError --> ReturnInputError[RETURN validation errors]
+    
+    ValidateInput -->|isValid = TRUE| CheckPassword{CheckPasswordComplexity}
+    CheckPassword -->|isValid = FALSE| LogPasswordError[LogError: Password complexity failed]
+    LogPasswordError --> ReturnPasswordError[RETURN password error]
+    
+    CheckPassword -->|isValid = TRUE| CheckExists{CheckUserExists}
+    CheckExists -->|userExists = TRUE| LogUserError[LogError: User already exists]
+    LogUserError --> ReturnUserError[RETURN "Username already taken"]
+    
+    CheckExists -->|userExists = FALSE| SaveUser{SaveUserRegistration}
+    SaveUser -->|isSuccess = FALSE| LogSaveError[LogError: Failed to save registration]
+    LogSaveError --> ReturnSaveError[RETURN "Registration failed"]
+    
+    SaveUser -->|isSuccess = TRUE| GenerateCode[GenerateConfirmationCode]
+    GenerateCode --> SendEmail{SendConfirmationEmail}
+    
+    SendEmail -->|isSuccess = FALSE| LogEmailWarning[LogWarning: Failed to send email]
+    SendEmail -->|isSuccess = TRUE| LogSuccess[LogEvent: Registration successful]
+    LogEmailWarning --> LogSuccess
+    
+    LogSuccess --> ReturnSuccess[RETURN "Registration successful - check email"]
+    
+    %% Styling
+    classDef startEnd fill:#e1f5fe,stroke:#01579b,stroke-width:2px
+    classDef process fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef decision fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef error fill:#ffebee,stroke:#c62828,stroke-width:2px
+    classDef success fill:#e8f5e8,stroke:#2e7d32,stroke-width:2px
+    
+    class Start,ReturnSuccess startEnd
+    class Input,GenerateCode,LogSuccess process
+    class ValidateInput,CheckPassword,CheckExists,SaveUser,SendEmail decision
+    class LogInputError,LogPasswordError,LogUserError,LogSaveError,LogEmailWarning,ReturnInputError,ReturnPasswordError,ReturnUserError,ReturnSaveError error
+    class ReturnSuccess success

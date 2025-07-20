@@ -1,0 +1,1341 @@
+TITLE: Initialize Mermaid.js with Custom Configuration and Security Settings
+DESCRIPTION: This JavaScript snippet imports the Mermaid library and initializes it with a comprehensive configuration. It sets a custom theme ('forest'), enables absolute arrow markers, defines error handling, and configures various diagram types like flowcharts and sequence diagrams. Crucially, it sets `securityLevel` to 'antiscript' and explicitly lists secure options, demonstrating how to harden Mermaid against script injection.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/xss14.html#_snippet_1
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; mermaid.parseError = function (err, hash) { // console.error('Mermaid error: ', err); }; mermaid.initialize({ theme: 'forest', arrowMarkerAbsolute: true, // themeCSS: '.edgePath .path {stroke: red;} .arrowheadPath {fill: red;}', logLevel: 0, state: { defaultRenderer: 'dagre-d3', }, flowchart: { // defaultRenderer: 'dagre-wrapper', nodeSpacing: 10, curve: 'cardinal', htmlLabels: true, }, htmlLabels: true, // gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorFontFamily: 'courier', actorMargin: 50, showSequenceNumbers: false }, // sequenceDiagram: { actorMargin: 300 } // deprecated // fontFamily: '"times", sans-serif', // fontFamily: 'courier', fontSize: 18, curve: 'basis', securityLevel: 'antiscript', startOnLoad: false, secure: ['secure', 'securityLevel', 'startOnLoad', 'maxTextSize'], // themeVariables: {relationLabelColor: 'red'} });
+```
+
+----------------------------------------
+
+TITLE: Mermaid.js Initialization with Security and Diagram Configuration
+DESCRIPTION: Initializes the Mermaid.js library with various configuration options, including theme, logging, and specific settings for state and flowchart diagrams. Crucially, it sets 'securityLevel' to 'antiscript' and explicitly lists secure configuration properties, demonstrating an attempt to mitigate scripting vulnerabilities.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/xss6.html#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs';
+mermaid.parseError = function (err, hash) { // console.error('Mermaid error: ', err); };
+mermaid.initialize({
+  theme: 'forest',
+  arrowMarkerAbsolute: true,
+  // themeCSS: '.edgePath .path {stroke: red;} .arrowheadPath {fill: red;}',
+  logLevel: 0,
+  state: {
+    defaultRenderer: 'dagre-wrapper'
+  },
+  flowchart: {
+    // defaultRenderer: 'dagre-wrapper',
+    nodeSpacing: 10,
+    curve: 'cardinal',
+    htmlLabels: true
+  },
+  htmlLabels: true,
+  // gantt: { axisFormat: '%m/%d/%Y' },
+  sequence: {
+    actorFontFamily: 'courier',
+    actorMargin: 50,
+    showSequenceNumbers: false
+  },
+  // sequenceDiagram: { actorMargin: 300 } // deprecated
+  // fontFamily: '"times", sans-serif',
+  // fontFamily: 'courier',
+  fontSize: 18,
+  curve: 'basis',
+  securityLevel: 'antiscript',
+  startOnLoad: false,
+  secure: ['secure', 'securityLevel', 'startOnLoad', 'maxTextSize'],
+  // themeVariables: {relationLabelColor: 'red'}
+});
+```
+
+----------------------------------------
+
+TITLE: Mermaid JavaScript Initialization Configuration
+DESCRIPTION: Provides a JavaScript example for initializing the Mermaid library with various configuration options, including theme, log level, security, and diagram-specific settings for flowcharts, gantt charts, and sequence diagrams.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/demos/classchart.html#_snippet_11
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs';
+mermaid.initialize({
+  theme: 'default',
+  // themeCSS: '.node rect { fill: red; }',
+  logLevel: 3,
+  securityLevel: 'loose',
+  flowchart: {
+    curve: 'basis'
+  },
+  gantt: {
+    axisFormat: '%m/%d/%Y'
+  },
+  sequence: {
+    actorMargin: 50
+  }
+  // sequenceDiagram: { actorMargin: 300 } // deprecated
+});
+```
+
+----------------------------------------
+
+TITLE: Initialize Mermaid Library in HTML
+DESCRIPTION: Illustrates how to import the Mermaid library via CDN and initialize it using `mermaid.initialize({ startOnLoad: true })`. This call processes all diagrams defined within `<pre class="mermaid">` tags on the page, rendering them into visual diagrams.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/intro/getting-started.md#_snippet_3
+
+LANGUAGE: html
+CODE:
+```
+<body>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</body>
+```
+
+----------------------------------------
+
+TITLE: Registering and Initializing an External Mermaid Diagram
+DESCRIPTION: This snippet demonstrates the process of importing an external Mermaid diagram module, registering it with the Mermaid library using `registerExternalDiagrams`, initializing Mermaid with a specific log level, and then running it. It also includes a conditional check for the Cypress testing environment to signal rendering completion.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/external-diagrams-example-diagram.html#_snippet_0
+
+LANGUAGE: JavaScript
+CODE:
+```
+import exampleDiagram from './mermaid-example-diagram.esm.mjs'; import mermaid from './mermaid.esm.mjs'; await mermaid.registerExternalDiagrams([exampleDiagram]); await mermaid.initialize({ logLevel: 0 }); await mermaid.run(); if (window.Cypress) { window.rendered = true; }
+```
+
+----------------------------------------
+
+TITLE: Initializing Mermaid.js Configuration
+DESCRIPTION: This JavaScript snippet demonstrates how to import and initialize the Mermaid.js library. It sets various global configuration options, including theme, log level, security level, and specific settings for different diagram types like flowcharts, gantt charts, and sequence diagrams.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/demos/state.html#_snippet_12
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; mermaid.initialize({ theme: 'default', // themeCSS: '.node rect { fill: red; }', logLevel: 3, securityLevel: 'loose', flowchart: { curve: 'basis' }, gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorMargin: 50 }, // sequenceDiagram: { actorMargin: 300 } // deprecated });
+```
+
+----------------------------------------
+
+TITLE: Initializing Mermaid with Configuration (HTML/JavaScript)
+DESCRIPTION: Demonstrates the recommended method for initializing the Mermaid library using `mermaid.initialize`. It shows how to import the module and pass a configuration object to customize settings like `startOnLoad` and flowchart-specific options. Requires the `mermaid` module.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/config/usage.md#_snippet_19
+
+LANGUAGE: html
+CODE:
+```
+<script type="module">
+  import mermaid from './mermaid.esm.mjs';
+  let config = { startOnLoad: true, flowchart: { useMaxWidth: false, htmlLabels: true } };
+  mermaid.initialize(config);
+</script>
+```
+
+----------------------------------------
+
+TITLE: Installing Mermaid via Package Managers (NPM, Yarn, PNPM)
+DESCRIPTION: Demonstrates how to install the mermaid library using common Node.js package managers like npm, yarn, and pnpm. Requires Node.js version 16 or higher.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/usage.md#_snippet_0
+
+LANGUAGE: bash
+CODE:
+```
+# NPM
+npm install mermaid
+# Yarn
+yarn add mermaid
+# PNPM
+pnpm add mermaid
+```
+
+----------------------------------------
+
+TITLE: Replace Deprecated mermaid.init with initialize and run
+DESCRIPTION: The `mermaid.init` function is deprecated in v10 and will be removed. This snippet shows how to replace `mermaid.init` with a combination of `mermaid.initialize` for configuration and `mermaid.run` for rendering, covering both scenarios where errors are suppressed or thrown.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/CHANGELOG.md#_snippet_3
+
+LANGUAGE: javascript
+CODE:
+```
+// < v10
+mermaid.init(config, selector, cb);
+
+//>= v10
+mermaid.initialize(config);
+mermaid.run({
+  querySelector: selector,
+  postRenderCallback: cb,
+  suppressErrors: true,
+});
+
+// < v10
+mermaid.initThrowsErrors(config, selector, cb);
+
+//>= v10
+mermaid.initialize(config);
+mermaid.run({
+  querySelector: selector,
+  postRenderCallback: cb,
+  suppressErrors: false,
+});
+```
+
+----------------------------------------
+
+TITLE: Mermaid C4 Diagram Supported Element Syntax
+DESCRIPTION: This section outlines the syntax for various elements supported across different C4 diagram types in Mermaid. It details the parameters for elements like Person, System, Container, Component, RelIndex, and Deployment_Node, specifying required and optional arguments such as alias, label, description, technology, sprite, tags, and link. This serves as a reference for constructing C4 diagrams with available building blocks.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/c4.md#_snippet_1
+
+LANGUAGE: APIDOC
+CODE:
+```
+System Context:
+  Person(alias, label, ?descr, ?sprite, ?tags, $link)
+  Person_Ext
+  System(alias, label, ?descr, ?sprite, ?tags, $link)
+  SystemDb
+  SystemQueue
+  System_Ext
+  SystemDb_Ext
+  SystemQueue_Ext
+  Boundary(alias, label, ?type, ?tags, $link)
+  Enterprise_Boundary(alias, label, ?tags, $link)
+  System_Boundary
+
+Container diagram:
+  Container(alias, label, ?techn, ?descr, ?sprite, ?tags, $link)
+  ContainerDb
+  ContainerQueue
+  Container_Ext
+  ContainerDb_Ext
+  ContainerQueue_Ext
+  Container_Boundary(alias, label, ?tags, $link)
+
+Component diagram:
+  Component(alias, label, ?techn, ?descr, ?sprite, ?tags, $link)
+  ComponentDb
+  ComponentQueue
+  Component_Ext
+  ComponentDb_Ext
+  ComponentQueue_Ext
+
+Dynamic diagram:
+  RelIndex(index, from, to, label, ?tags, $link)
+
+Deployment diagram:
+  Deployment_Node(alias, label, ?type, ?descr, ?sprite, ?tags, $link)
+```
+
+----------------------------------------
+
+TITLE: Mermaid C4 Dynamic Diagram for Internet Banking API
+DESCRIPTION: This Mermaid C4 Dynamic diagram visualizes the interaction flow within an Internet Banking System's API application. It details how a Single-Page Application communicates with a Sign In Controller, which then leverages a Security Component to authenticate users against a Database. The diagram also includes custom styling for the relationship lines.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/syntax/c4.md#_snippet_15
+
+LANGUAGE: Mermaid
+CODE:
+```
+C4Dynamic
+title Dynamic diagram for Internet Banking System - API Application
+
+ContainerDb(c4, "Database", "Relational Database Schema", "Stores user registration information, hashed authentication credentials, access logs, etc.")
+Container(c1, "Single-Page Application", "JavaScript and Angular", "Provides all of the Internet banking functionality to customers via their web browser.")
+Container_Boundary(b, "API Application") {
+  Component(c3, "Security Component", "Spring Bean", "Provides functionality Related to signing in, changing passwords, etc.")
+  Component(c2, "Sign In Controller", "Spring MVC Rest Controller", "Allows users to sign in to the Internet Banking System.")
+}
+Rel(c1, c2, "Submits credentials to", "JSON/HTTPS")
+Rel(c2, c3, "Calls isAuthenticated() on")
+Rel(c3, c4, "select * from users where username = ?", "JDBC")
+
+UpdateRelStyle(c1, c2, $textColor="red", $offsetY="-40")
+UpdateRelStyle(c2, c3, $textColor="red", $offsetX="-40", $offsetY="60")
+UpdateRelStyle(c3, c4, $textColor="red", $offsetY="-40", $offsetX="10")
+```
+
+----------------------------------------
+
+TITLE: Mermaid Diagram in Markdown Code Block
+DESCRIPTION: Demonstrates how to embed a Mermaid flowchart diagram directly within a markdown code block, which is natively supported by platforms like GitHub and GitLab for rendering.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/getting-started.md#_snippet_1
+
+LANGUAGE: markdown
+CODE:
+```
+flowchart LR
+  A --> B
+```
+
+----------------------------------------
+
+TITLE: Mermaid Flowchart with Single-Line Accessible Description
+DESCRIPTION: Demonstrates how to create a Mermaid flowchart with an accessible title and a single-line accessible description using `accTitle` and `accDescr`. This improves diagram accessibility by mapping to SVG's `<title>` and `<desc>` elements for screen readers.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/accessibility.md#_snippet_5
+
+LANGUAGE: mermaid
+CODE:
+```
+graph LR
+      accTitle: Big Decisions
+      accDescr: Bob's Burgers process for making big decisions
+      A[Identify Big Decision] --> B{Make Big Decision}
+      B --> D[Be done]
+```
+
+LANGUAGE: html
+CODE:
+```
+<svg
+  aria-labelledby="chart-title-mermaid_382ee221"
+  aria-describedby="chart-desc-mermaid_382ee221"
+  aria-roledescription="flowchart-v2"
+  xmlns="http://www.w3.org/2000/svg"
+  width="100%"
+  id="mermaid_382ee221"
+>
+  <title id="chart-title-mermaid_382ee221">Big decisions</title>
+  <desc id="chart-desc-mermaid_382ee221">Bob's Burgers process for making big decisions</desc>
+</svg>
+```
+
+----------------------------------------
+
+TITLE: Initializing Mermaid.js Library in HTML
+DESCRIPTION: Illustrates how to import the Mermaid JavaScript library from a CDN and initialize it using `mermaid.initialize()`. The `startOnLoad: true` option ensures that Mermaid automatically renders diagrams found within `<pre class="mermaid">` tags upon page load.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/getting-started.md#_snippet_3
+
+LANGUAGE: html
+CODE:
+```
+<body>
+  <script type="module">
+    import mermaid from '<CDN_URL>/mermaid@<MERMAID_VERSION>/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</body>
+```
+
+----------------------------------------
+
+TITLE: Add Mermaid as a Production Dependency
+DESCRIPTION: This command adds the Mermaid JavaScript library as a standard production dependency to your project using Yarn. It will be included in your project's 'dependencies' list in 'package.json'.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/intro/getting-started.md#_snippet_8
+
+LANGUAGE: Shell
+CODE:
+```
+yarn add mermaid
+```
+
+----------------------------------------
+
+TITLE: Mermaid Architecture Diagram with Custom Icons
+DESCRIPTION: This Mermaid diagram illustrates the usage of custom icons within an architecture diagram. Icons are referenced using the 'pack-name:icon-name' format, as shown with AWS service icons. The diagram groups services under an 'API' group and defines relationships between them.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/architecture.md#_snippet_6
+
+LANGUAGE: Mermaid
+CODE:
+```
+architecture-beta
+    group api(logos:aws-lambda)[API]
+
+    service db(logos:aws-aurora)[Database] in api
+    service disk1(logos:aws-glacier)[Storage] in api
+    service disk2(logos:aws-s3)[Storage] in api
+    service server(logos:aws-ec2)[Server] in api
+
+    db:L -- R:server
+    disk1:T -- B:server
+    disk2:T -- B:db
+```
+
+----------------------------------------
+
+TITLE: Install Mermaid with NPM
+DESCRIPTION: Command to install the Mermaid library using the Node Package Manager (NPM). This is suitable for projects using Node.js.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/index.md#_snippet_1
+
+LANGUAGE: Shell
+CODE:
+```
+npm i mermaid
+```
+
+----------------------------------------
+
+TITLE: Initialize Mermaid Library with Custom Configuration
+DESCRIPTION: This JavaScript snippet demonstrates how to import and initialize the Mermaid.js library with a custom configuration. It sets the default theme, log level, security level, and specific options for flowchart, gantt, and sequence diagrams, allowing for fine-grained control over diagram rendering.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/demos/er.html#_snippet_8
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; mermaid.initialize({ theme: 'default', // themeCSS: '.node rect { fill: red; }', logLevel: 3, securityLevel: 'loose', flowchart: { curve: 'basis' }, gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorMargin: 50 }, // sequenceDiagram: { actorMargin: 300 } // deprecated });
+```
+
+----------------------------------------
+
+TITLE: Define a C4 System Context Diagram for an Internet Banking System
+DESCRIPTION: This example demonstrates how to define a C4 System Context diagram using Mermaid syntax. It includes various elements such as persons, internal and external systems, enterprise and system boundaries, databases, and queues. The snippet also shows how to define relationships between elements and apply custom styling to elements and relationships, as well as update layout configurations.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/syntax/c4.md#_snippet_0
+
+LANGUAGE: mermaid-example
+CODE:
+```
+C4Context
+      title System Context diagram for Internet Banking System
+      Enterprise_Boundary(b0, "BankBoundary0") {
+        Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+        Person(customerB, "Banking Customer B")
+        Person_Ext(customerC, "Banking Customer C", "desc")
+
+        Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+        System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+        Enterprise_Boundary(b1, "BankBoundary") {
+
+          SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+          System_Boundary(b2, "BankBoundary2") {
+            System(SystemA, "Banking System A")
+            System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts. next line.")
+          }
+
+          System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+          SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+          Boundary(b3, "BankBoundary3", "boundary") {
+            SystemQueue(SystemF, "Banking System F Queue", "A system of the bank.")
+            SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+          }
+        }
+      }
+
+      BiRel(customerA, SystemAA, "Uses")
+      BiRel(SystemAA, SystemE, "Uses")
+      Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+      Rel(SystemC, customerA, "Sends e-mails to")
+
+      UpdateElementStyle(customerA, $fontColor="red", $bgColor="grey", $borderColor="red")
+      UpdateRelStyle(customerA, SystemAA, $textColor="blue", $lineColor="blue", $offsetX="5")
+      UpdateRelStyle(SystemAA, SystemE, $textColor="blue", $lineColor="blue", $offsetY="-10")
+      UpdateRelStyle(SystemAA, SystemC, $textColor="blue", $lineColor="blue", $offsetY="-40", $offsetX="-50")
+      UpdateRelStyle(SystemC, customerA, $textColor="red", $lineColor="red", $offsetX="-50", $offsetY="20")
+
+      UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
+```
+
+LANGUAGE: mermaid
+CODE:
+```
+C4Context
+      title System Context diagram for Internet Banking System
+      Enterprise_Boundary(b0, "BankBoundary0") {
+        Person(customerA, "Banking Customer A", "A customer of the bank, with personal bank accounts.")
+        Person(customerB, "Banking Customer B")
+        Person_Ext(customerC, "Banking Customer C", "desc")
+
+        Person(customerD, "Banking Customer D", "A customer of the bank, <br/> with personal bank accounts.")
+
+        System(SystemAA, "Internet Banking System", "Allows customers to view information about their bank accounts, and make payments.")
+
+        Enterprise_Boundary(b1, "BankBoundary") {
+
+          SystemDb_Ext(SystemE, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+          System_Boundary(b2, "BankBoundary2") {
+            System(SystemA, "Banking System A")
+            System(SystemB, "Banking System B", "A system of the bank, with personal bank accounts. next line.")
+          }
+
+          System_Ext(SystemC, "E-mail system", "The internal Microsoft Exchange e-mail system.")
+          SystemDb(SystemD, "Banking System D Database", "A system of the bank, with personal bank accounts.")
+
+          Boundary(b3, "BankBoundary3", "boundary") {
+            SystemQueue(SystemF, "Banking System F Queue", "A system of the bank.")
+            SystemQueue_Ext(SystemG, "Banking System G Queue", "A system of the bank, with personal bank accounts.")
+          }
+        }
+      }
+
+      BiRel(customerA, SystemAA, "Uses")
+      BiRel(SystemAA, SystemE, "Uses")
+      Rel(SystemAA, SystemC, "Sends e-mails", "SMTP")
+      Rel(SystemC, customerA, "Sends e-mails to")
+
+      UpdateElementStyle(customerA, $fontColor="red", $bgColor="grey", $borderColor="red")
+      UpdateRelStyle(customerA, SystemAA, $textColor="blue", $lineColor="blue", $offsetX="5")
+      UpdateRelStyle(SystemAA, SystemE, $textColor="blue", $lineColor="blue", $offsetY="-10")
+      UpdateRelStyle(SystemAA, SystemC, $textColor="blue", $lineColor="blue", $offsetY="-40", $offsetX="-50")
+      UpdateRelStyle(SystemC, customerA, $textColor="red", $lineColor="red", $offsetX="-50", $offsetY="20")
+
+      UpdateLayoutConfig($c4ShapeInRow="3", $c4BoundaryInRow="1")
+```
+
+----------------------------------------
+
+TITLE: Initialize and Configure Mermaid.js
+DESCRIPTION: Demonstrates how to import and initialize Mermaid.js, setting global configuration options such as theme, log level, and specific settings for different diagram types like flowchart and sequence diagrams. It also shows a basic error handler and a callback function.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/showcase_neutral.html#_snippet_13
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; mermaid.parseError = function (err, hash) { // console.error('Mermaid error: ', err); }; mermaid.initialize({ theme: 'neutral', // arrowMarkerAbsolute: true, // themeCSS: '.edgePath .path {stroke: red;} .arrowheadPath {fill: red;}', logLevel: 0, flowchart: { curve: 'cardinal', htmlLabels: false }, // gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorMargin: 50, showSequenceNumbers: true }, // sequenceDiagram: { actorMargin: 300 } // deprecated fontFamily: '"arial", sans-serif', curve: 'cardinal', securityLevel: 'strict', }); function callback() { alert('It worked'); }
+```
+
+----------------------------------------
+
+TITLE: Mermaid.js Initialization and Error Handling Configuration
+DESCRIPTION: This JavaScript snippet configures the Mermaid.js library, setting various options for rendering diagrams, including theme, logging level, and specific settings for flowcharts and sequence diagrams. It also defines a custom error handler and a simple callback function.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/current.html#_snippet_11
+
+LANGUAGE: JavaScript
+CODE:
+```
+mermaid.parseError = function (err, hash) { // console.error('Mermaid error: ', err); }; mermaid.initialize({ // theme: 'forest', // themeVariables:{primaryColor: '#ff0000'}, // arrowMarkerAbsolute: true, // themeCSS: '.edgePath .path {stroke: red;} .arrowheadPath {fill: red;}', logLevel: 0, flowchart: { curve: 'cardinal', htmlLabels: false }, // gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorMargin: 50, showSequenceNumbers: true }, // sequenceDiagram: { actorMargin: 300 } // deprecated fontFamily: '"arial", sans-serif', curve: 'cardinal', securityLevel: 'strict', }); function callback() { alert('It worked'); }
+```
+
+----------------------------------------
+
+TITLE: Validating Diagram Syntax with mermaid.parse (JavaScript)
+DESCRIPTION: Illustrates how to use the `mermaid.parse` function to check the syntax of a diagram definition string. It shows how to override the default error handling with `mermaid.parseError` and how to integrate validation into an event handler, only proceeding with rendering if the syntax is valid.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/usage.md#_snippet_17
+
+LANGUAGE: javascript
+CODE:
+```
+mermaid.parseError = function (err, hash) {
+  displayErrorInGui(err);
+};
+
+const textFieldUpdated = async function () {
+  const textStr = getTextFromFormField('code');
+
+  if (await mermaid.parse(textStr)) {
+    reRender(textStr);
+  }
+};
+
+bindEventHandler('change', 'code', textFieldUpdated);
+```
+
+----------------------------------------
+
+TITLE: Render Basic Git Diagram with Branches and Merges (Mermaid)
+DESCRIPTION: Illustrates how to create a comprehensive Git graph in Mermaid, demonstrating branch creation, checkout, commits, and merging branches back into the main timeline. This snippet showcases the fundamental operations for visualizing complex Git workflows.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/syntax/gitgraph.md#_snippet_0
+
+LANGUAGE: mermaid-example
+CODE:
+```
+---
+title: Example Git diagram
+---
+gitGraph
+   commit
+   commit
+   branch develop
+   checkout develop
+   commit
+   commit
+   checkout main
+   merge develop
+   commit
+   commit
+```
+
+LANGUAGE: mermaid
+CODE:
+```
+---
+title: Example Git diagram
+---
+gitGraph
+   commit
+   commit
+   branch develop
+   checkout develop
+   commit
+   commit
+   checkout main
+   merge develop
+   commit
+   commit
+```
+
+----------------------------------------
+
+TITLE: Initializing Mermaid.js with Custom Configuration
+DESCRIPTION: Demonstrates how to initialize the Mermaid.js library with various configuration options, including enabling `startOnLoad`, setting `logLevel`, and configuring specific diagram types like `flowchart`, `gantt`, and `sequence` diagrams. It also shows how to set a custom `parseError` handler for debugging.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/knsv.html#_snippet_7
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs';
+
+mermaid.parseError = function (err, hash) {
+  // console.error('Mermaid error: ', err);
+};
+
+mermaid.initialize({
+  // theme: 'forest',
+  startOnLoad: true,
+  logLevel: 0,
+  flowchart: {
+    // defaultRenderer: 'elk',
+    useMaxWidth: false,
+    // htmlLabels: false,
+    htmlLabels: true,
+  },
+  // htmlLabels: false,
+  gantt: {
+    useMaxWidth: false,
+  },
+  sequence: {
+    wrap: true,
+  },
+  useMaxWidth: false,
+});
+
+function callback() {
+  alert('It worked');
+}
+
+mermaid.parseError = function (err, hash) {
+  console.error('In parse error:');
+  console.error(err);
+};
+
+// mermaid.test1('first_slow', 1200).then((r) => console.info(r));
+// mermaid.test1('second_fast', 200).then((r) => console.info(r));
+// mermaid.test1('third_fast', 200).then((r) => console.info(r));
+// mermaid.test1('forth_slow', 1200).then((r) => console.info(r));
+```
+
+----------------------------------------
+
+TITLE: Create Mermaid Graph Diagram with Node Shapes and Styling
+DESCRIPTION: This Mermaid code snippet demonstrates how to create a graph diagram ('graph LR') featuring a wide array of node shapes, including default, rounded, stadium, cylindrical, and more. It also applies custom CSS styling to individual nodes and default link styles to differentiate 'red text' and 'blue text' nodes visually.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/demos/flowchart.html#_snippet_25
+
+LANGUAGE: Mermaid
+CODE:
+```
+graph LR
+A1\[red text\] -->|default style| A2\[blue text\]
+B1(red text) -->|default style| B2(blue text)
+C1(\[red text\]) -->|default style| C2(\[blue text\])
+D1\[\[red text\]\] -->|default style| D2\[\[blue text\]\]
+E1\[(red text)\] -->|default style| E2\[(blue text)\]
+F1((red text)) -->|default style| F2((blue text))
+G1>red text\] -->|default style| G2>blue text\]
+H1{red text} -->|default style| H2{blue text}
+I1{{red text}} -->|default style| I2{{blue text}}
+J1\[/red text/\] -->|default style| J2\[/blue text/\]
+K1\[\\red text\\\] -->|default style| K2\[\\blue text\\\]
+L1\[/red text\\\] -->|default style| L2\[/blue text\\\]
+M1\[\\red text/\] -->|default style| M2\[\\blue text/\]
+N1\[red text\] -->|default style| N2\[blue text\]
+linkStyle default color:Sienna;
+style A1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style B1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style C1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style D1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style E1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style F1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style G1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style H1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style I1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style J1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style K1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style L1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style M1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style N1 stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style A2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style B2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style C2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style D2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style E2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style F2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style G2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style H2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style I2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style J2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style K2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style L2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style M2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+style N2 stroke:#0000ff,fill:#ccccff,color:#0000ff
+```
+
+----------------------------------------
+
+TITLE: Full HTML Example for Embedding Mermaid
+DESCRIPTION: A complete basic HTML document demonstrating how to include both a Mermaid diagram definition within a `<pre>` tag and the necessary Mermaid script to render it upon page load.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/config/usage.md#_snippet_3
+
+LANGUAGE: html
+CODE:
+```
+<!doctype html>
+<html lang="en">
+  <body>
+    <pre class="mermaid">
+  graph LR
+      A --- B
+      B-->C[fa:fa-ban forbidden]
+      B-->D(fa:fa-spinner);
+    </pre>
+    <script type="module">
+      import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+    </script>
+  </body>
+</html>
+```
+
+----------------------------------------
+
+TITLE: Register Icon Pack with Lazy Loading in Mermaid
+DESCRIPTION: Illustrates how to register an icon pack in Mermaid using a lazy loading approach. The icon data is dynamically imported from the `@iconify-json/logos` package only when the pack is first used, optimizing the initial bundle size and load performance.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/icons.md#_snippet_2
+
+LANGUAGE: js
+CODE:
+```
+import mermaid from 'mermaid';
+
+mermaid.registerIconPacks([
+  {
+    name: 'logos',
+    loader: () => import('@iconify-json/logos').then((module) => module.icons),
+  },
+]);
+```
+
+----------------------------------------
+
+TITLE: Importing Mermaid via CDN as an ES Module
+DESCRIPTION: Provides an example of how to include the Mermaid library on a webpage using a script tag with type="module", importing the library from a Content Delivery Network (CDN) URL.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/usage.md#_snippet_2
+
+LANGUAGE: html
+CODE:
+```
+<script type="module">
+  import mermaid from '<CDN_URL>/mermaid@<MERMAID_VERSION>/dist/mermaid.esm.min.mjs';
+</script>
+```
+
+----------------------------------------
+
+TITLE: Use Markdown Strings for Enhanced Labels
+DESCRIPTION: Demonstrates the use of Markdown strings in Mermaid for node, edge, and subgraph labels, enabling rich text formatting (bold, italics) and automatic text wrapping. Includes a configuration to disable HTML labels.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/syntax/flowchart.md#_snippet_100
+
+LANGUAGE: mermaid-example
+CODE:
+```
+---
+config:
+  flowchart:
+    htmlLabels: false
+---
+flowchart LR
+subgraph "One"
+  a("`The **cat**
+  in the hat`") -- "edge label" --> b{{"`The **dog** in the hog`"}}
+end
+subgraph "`**Two**`"
+  c("`The **cat**
+  in the hat`") -- "`Bold **edge label**`" --> d("The dog in the hog")
+end
+```
+
+LANGUAGE: mermaid
+CODE:
+```
+---
+config:
+  flowchart:
+    htmlLabels: false
+---
+flowchart LR
+subgraph "One"
+  a("`The **cat**
+  in the hat`") -- "edge label" --> b{{"`The **dog** in the hog`"}}
+end
+subgraph "`**Two**`"
+  c("`The **cat**
+  in the hat`") -- "`Bold **edge label**`" --> d("The dog in the hog")
+end
+```
+
+----------------------------------------
+
+TITLE: Install Mermaid with Yarn
+DESCRIPTION: Command to install the Mermaid library using the Yarn package manager. An alternative to NPM for managing project dependencies.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/index.md#_snippet_2
+
+LANGUAGE: Shell
+CODE:
+```
+yarn add mermaid
+```
+
+----------------------------------------
+
+TITLE: Define the Structure of a Mermaid Directive
+DESCRIPTION: This snippet illustrates the general JSON-like structure used within Mermaid directives. It shows how top-level configurations like `theme` and `fontFamily`, along with diagram-specific settings for `flowchart` and `sequence` diagrams, are nested under the `init` key.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/config/directives.md#_snippet_0
+
+LANGUAGE: Mermaid
+CODE:
+```
+%%{
+  init: {
+    "theme": "dark",
+    "fontFamily": "monospace",
+    "logLevel": "info",
+    "flowchart": {
+      "htmlLabels": true,
+      "curve": "linear"
+    },
+    "sequence": {
+      "mirrorActors": true
+    }
+  }
+}%%
+```
+
+----------------------------------------
+
+TITLE: Initialize and Configure Mermaid.js
+DESCRIPTION: JavaScript code to import the Mermaid library and its layout loaders, register the loaders, and initialize Mermaid. It also sets up a custom 'parseError' handler for debugging.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/yari2.html#_snippet_9
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; import layouts from './mermaid-layout-elk.esm.mjs'; mermaid.registerLayoutLoaders(layouts); mermaid.parseError = function (err, hash) { console.error('Mermaid error: ', err); }; mermaid.initialize(); mermaid.parseError = function (err, hash) { console.error('In parse error:'); console.error(err); };
+```
+
+----------------------------------------
+
+TITLE: Mermaid C4 Container Diagram Example
+DESCRIPTION: Presents a C4 Container diagram for an Internet Banking System, detailing the internal structure of the 'Internet Banking' system. It shows various containers like a Single-Page App, Mobile App, Web Application, Database, and API Application, and their interactions with external systems and users.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/c4.md#_snippet_12
+
+LANGUAGE: mermaid
+CODE:
+```
+C4Container
+    title Container diagram for Internet Banking System
+
+    System_Ext(email_system, "E-Mail System", "The internal Microsoft Exchange system", $tags="v1.0")
+    Person(customer, Customer, "A customer of the bank, with personal bank accounts", $tags="v1.0")
+
+    Container_Boundary(c1, "Internet Banking") {
+        Container(spa, "Single-Page App", "JavaScript, Angular", "Provides all the Internet banking functionality to customers via their web browser")
+        Container_Ext(mobile_app, "Mobile App", "C#, Xamarin", "Provides a limited subset of the Internet banking functionality to customers via their mobile device")
+        Container(web_app, "Web Application", "Java, Spring MVC", "Delivers the static content and the Internet banking SPA")
+        ContainerDb(database, "Database", "SQL Database", "Stores user registration information, hashed auth credentials, access logs, etc.")
+        ContainerDb_Ext(backend_api, "API Application", "Java, Docker Container", "Provides Internet banking functionality via API")
+
+    }
+
+    System_Ext(banking_system, "Mainframe Banking System", "Stores all of the core banking information about customers, accounts, transactions, etc.")
+
+    Rel(customer, web_app, "Uses", "HTTPS")
+    UpdateRelStyle(customer, web_app, $offsetY="60", $offsetX="90")
+    Rel(customer, spa, "Uses", "HTTPS")
+    UpdateRelStyle(customer, spa, $offsetY="-40")
+    Rel(customer, mobile_app, "Uses")
+    UpdateRelStyle(customer, mobile_app, $offsetY="-30")
+
+    Rel(web_app, spa, "Delivers")
+    UpdateRelStyle(web_app, spa, $offsetX="130")
+    Rel(spa, backend_api, "Uses", "async, JSON/HTTPS")
+    Rel(mobile_app, backend_api, "Uses", "async, JSON/HTTPS")
+    Rel_Back(database, backend_api, "Reads from and writes to", "sync, JDBC")
+
+    Rel(email_system, customer, "Sends e-mails to")
+    UpdateRelStyle(email_system, customer, $offsetX="-45")
+    Rel(backend_api, email_system, "Sends e-mails using", "sync, SMTP")
+    UpdateRelStyle(backend_api, email_system, $offsetY="-60")
+    Rel(backend_api, banking_system, "Uses", "sync/async, XML/HTTPS")
+    UpdateRelStyle(backend_api, banking_system, $offsetY="-50", $offsetX="-140")
+```
+
+----------------------------------------
+
+TITLE: Embedding Mermaid Diagram in HTML using pre tag
+DESCRIPTION: Shows how to define a Mermaid diagram directly within an HTML document by placing the diagram's code inside a `<pre class="mermaid">` tag. This method allows the Mermaid JavaScript API to locate and render the diagram.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/getting-started.md#_snippet_2
+
+LANGUAGE: html
+CODE:
+```
+<body>
+  Here is a mermaid diagram:
+  <pre class="mermaid">
+        graph TD
+        A[Client] --> B[Load Balancer]
+        B --> C[Server01]
+        B --> D[Server02]
+  </pre>
+</body>
+```
+
+----------------------------------------
+
+TITLE: Defining a Mermaid Diagram in HTML
+DESCRIPTION: Shows how to embed a Mermaid diagram definition within an HTML <pre> tag with the class "mermaid". This tag is used by the Mermaid script to locate and render the diagram.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/usage.md#_snippet_1
+
+LANGUAGE: html
+CODE:
+```
+<pre class="mermaid">
+    graph LR
+    A --- B
+    B-->C[fa:fa-ban forbidden]
+    B-->D(fa:fa-spinner);
+</pre>
+```
+
+----------------------------------------
+
+TITLE: Apply Custom Styles and Clicks to Mermaid Graph and Flowchart Elements
+DESCRIPTION: Illustrates how to apply custom CSS styles to individual nodes and links in Mermaid diagrams, overriding default appearances. Also shows how to attach click events to nodes, linking to URLs or executing JavaScript functions.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/demos/flowchart.html#_snippet_23
+
+LANGUAGE: Mermaid
+CODE:
+```
+graph LR
+A[red  
+text] -->|red  
+text| B(blue  
+text)
+C[/red  
+text/] -->|blue  
+text| D{blue  
+text}
+E{{default  
+style}} -->|default  
+style| F([default  
+style])
+linkStyle default color:Sienna;
+linkStyle 0 color:red;
+linkStyle 1 stroke:DarkGray,stroke-width:2px,color:#0000ff
+style A color:red;
+style B color:blue;
+style C stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style D stroke:#0000ff,fill:#ccccff,color:#0000ff
+click B "flowchart.html#link-clicked" "link test"
+click D testClick "click test"
+```
+
+LANGUAGE: Mermaid
+CODE:
+```
+flowchart LR
+A[red  
+text] -->|red  
+text| B(blue  
+text)
+C[/red  
+text/] -->|blue  
+text| D{blue  
+text}
+E{{default  
+style}} -->|default  
+style| F([default  
+style])
+linkStyle default color:Sienna;
+linkStyle 0 color:red;
+linkStyle 1 stroke:DarkGray,stroke-width:2px,color:#0000ff
+style A color:red;
+style B color:blue;
+style C stroke:#ff0000,fill:#ffcccc,color:#ff0000
+style D stroke:#0000ff,fill:#ccccff,color:#0000ff
+click B "flowchart.html#link-clicked" "link test"
+click D testClick "click test"
+```
+
+----------------------------------------
+
+TITLE: Install Mermaid via npm
+DESCRIPTION: Installs the Mermaid library using the npm package manager.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/intro/index.md#_snippet_9
+
+LANGUAGE: bash
+CODE:
+```
+npm i mermaid
+```
+
+----------------------------------------
+
+TITLE: Initialize Mermaid.js with Custom Configuration
+DESCRIPTION: This JavaScript snippet shows how to import and initialize the Mermaid.js library, setting various configuration options. It includes theme selection, error handling, and specific settings for different diagram types like flowchart and sequence diagrams, demonstrating how to customize Mermaid's rendering behavior.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/showcase_forest.html#_snippet_13
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; mermaid.parseError = function (err, hash) { // console.error('Mermaid error: ', err); }; mermaid.initialize({ theme: 'forest', // arrowMarkerAbsolute: true, // themeCSS: '.edgePath .path {stroke: red;} .arrowheadPath {fill: red;}', logLevel: 0, flowchart: { curve: 'cardinal', htmlLabels: false }, // gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorMargin: 50, showSequenceNumbers: true }, // sequenceDiagram: { actorMargin: 300 } // deprecated fontFamily: '"arial", sans-serif', curve: 'cardinal', securityLevel: 'strict', }); function callback() { alert('It worked'); }
+```
+
+----------------------------------------
+
+TITLE: Initialize Mermaid.js with Custom Configuration
+DESCRIPTION: This JavaScript code initializes the Mermaid.js library, importing it from a local module. It sets various global configuration options such as theme ('forest'), logging level (3), and security level ('loose'), along with specific settings for flowchart, gantt, and sequence diagrams.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/demos/journey.html#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs'; mermaid.initialize({ theme: 'forest', logLevel: 3, securityLevel: 'loose', flowchart: { curve: 'basis' }, gantt: { axisFormat: '%m/%d/%Y' }, sequence: { actorMargin: 50 }, });
+```
+
+----------------------------------------
+
+TITLE: Update mermaid.parse for Async and Error Handling
+DESCRIPTION: The `mermaid.parse` function is now asynchronous, and `ParseError` has been removed. This snippet demonstrates how to update parsing logic to use `await` with `catch` or a `try/catch` block for error handling in Mermaid v10 and later.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/CHANGELOG.md#_snippet_2
+
+LANGUAGE: javascript
+CODE:
+```
+// < v10
+mermaid.parse(text, parseError);
+
+//>= v10
+await mermaid.parse(text).catch(parseError);
+// or
+try {
+  await mermaid.parse(text);
+} catch (err) {
+  parseError(err);
+}
+```
+
+----------------------------------------
+
+TITLE: Basic Flowchart Example - Mermaid
+DESCRIPTION: Demonstrates the basic syntax for creating a simple flowchart with nodes and directed edges using Mermaid. Nodes are defined implicitly by the connections.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/intro/index.md#_snippet_0
+
+LANGUAGE: mermaid
+CODE:
+```
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```
+
+----------------------------------------
+
+TITLE: Initialize and Render Mermaid Graph Dynamically with JavaScript
+DESCRIPTION: This snippet demonstrates how to import Mermaid.js, initialize its API, and define an asynchronous function to dynamically render a Mermaid graph. It shows how to pass graph definition text to `mermaidAPI.render` and inject the resulting SVG into the DOM, including console logging with ANSI escape codes.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/rerender.html#_snippet_0
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from './mermaid.esm.mjs';
+mermaid.initialize({ startOnLoad: false });
+mermaid.mermaidAPI.initialize();
+
+async function rerender(text) {
+  const graphText = `graph TD A[${text}] -->|Get money| B(Go shopping)`;
+  const { svg } = await mermaid.mermaidAPI.render('id', graphText);
+  console.log('\\x1b[35m%s\\x1b[0m', '>> graph', svg);
+  document.getElementById('graph').innerHTML = svg;
+}
+
+window.rerender = rerender;
+await rerender('XMas');
+```
+
+----------------------------------------
+
+TITLE: Initialize and Configure Mermaid.js Library
+DESCRIPTION: Initializes the Mermaid.js library with global settings like `startOnLoad` and `logLevel`, along with specific configurations for flowchart and gantt diagrams to control rendering behavior. It also includes a commented-out placeholder for `parseError`.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/cypress/platform/sidv.html#_snippet_1
+
+LANGUAGE: JavaScript
+CODE:
+```
+import mermaid from '/mermaid.esm.mjs';
+mermaid.parseError = function (err, hash) { /* console.error('Mermaid error: ', err); */ };
+mermaid.initialize({
+  // theme: 'forest',
+  startOnLoad: true,
+  logLevel: 0,
+  flowchart: {
+    // defaultRenderer: 'elk',
+    useMaxWidth: false,
+    htmlLabels: true,
+  },
+  gantt: {
+    useMaxWidth: false,
+  },
+  useMaxWidth: false,
+});
+```
+
+----------------------------------------
+
+TITLE: Sequence Diagram: Blogging App Service Communication
+DESCRIPTION: Models a complex service communication flow for a blogging application, including user login, post submission, parallel notifications, and conditional logic for error handling.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/examples.md#_snippet_6
+
+LANGUAGE: mermaid-example
+CODE:
+```
+sequenceDiagram
+    participant web as Web Browser
+    participant blog as Blog Service
+    participant account as Account Service
+    participant mail as Mail Service
+    participant db as Storage
+
+    Note over web,db: The user must be logged in to submit blog posts
+    web->>+account: Logs in using credentials
+    account->>db: Query stored accounts
+    db->>account: Respond with query result
+
+    alt Credentials not found
+        account->>web: Invalid credentials
+    else Credentials found
+        account->>-web: Successfully logged in
+
+        Note over web,db: When the user is authenticated, they can now submit new posts
+        web->>+blog: Submit new post
+        blog->>db: Store post data
+
+        par Notifications
+            blog--)mail: Send mail to blog subscribers
+            blog--)db: Store in-site notifications
+        and Response
+            blog-->>-web: Successfully posted
+        end
+    end
+```
+
+----------------------------------------
+
+TITLE: Full HTML Example with Mermaid via CDN
+DESCRIPTION: Provides a complete HTML example demonstrating how to embed multiple Mermaid diagrams using `<pre class="mermaid">` tags and initialize the Mermaid library by importing it from a CDN. This setup enables rendering of all defined diagrams on the webpage.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/getting-started.md#_snippet_5
+
+LANGUAGE: html
+CODE:
+```
+<html>
+  <body>
+    Here is one mermaid diagram:
+    <pre class="mermaid">
+            graph TD
+            A[Client] --> B[Load Balancer]
+            B --> C[Server1]
+            B --> D[Server2]
+    </pre>
+
+    And here is another:
+    <pre class="mermaid">
+            graph TD
+            A[Client] -->|tcp_123| B
+            B(Load Balancer)
+            B -->|tcp_456| C[Server1]
+            B -->|tcp_456| D[Server2]
+    </pre>
+
+    <script type="module">
+      import mermaid from '<CDN_URL>/mermaid@<MERMAID_VERSION>/dist/mermaid.esm.min.mjs';
+      mermaid.initialize({ startOnLoad: true });
+    </script>
+  </body>
+</html>
+```
+
+----------------------------------------
+
+TITLE: Including the Mermaid Script via CDN (ESM)
+DESCRIPTION: Add the Mermaid JavaScript library to your webpage using a `<script>` tag with `type="module"` and import it from a Content Delivery Network (CDN). This allows Mermaid to process the diagram definitions on the page.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/config/usage.md#_snippet_2
+
+LANGUAGE: html
+CODE:
+```
+<script type="module">
+  import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+</script>
+```
+
+----------------------------------------
+
+TITLE: Mermaid Class Diagram with Accessible Title and Description
+DESCRIPTION: This snippet demonstrates how to apply `accTitle` and `accDescr` to a Mermaid class diagram. These accessibility features provide a textual title and description for the diagram, making it more understandable for users relying on assistive technologies.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/config/accessibility.md#_snippet_7
+
+LANGUAGE: mermaid-example
+CODE:
+```
+   classDiagram
+      accTitle: My Class Diagram
+      accDescr: My Class Diagram Description
+
+      Vehicle <|-- Car
+```
+
+LANGUAGE: mermaid
+CODE:
+```
+   classDiagram
+      accTitle: My Class Diagram
+      accDescr: My Class Diagram Description
+
+      Vehicle <|-- Car
+```
+
+----------------------------------------
+
+TITLE: Declare State by ID
+DESCRIPTION: Illustrates the simplest way to define a state in a Mermaid state diagram by using just an ID.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/syntax/stateDiagram.md#_snippet_1
+
+LANGUAGE: mermaid-example
+CODE:
+```
+stateDiagram-v2
+    stateId
+```
+
+LANGUAGE: mermaid
+CODE:
+```
+stateDiagram-v2
+    stateId
+```
+
+----------------------------------------
+
+TITLE: Installing Mermaid as a Project Dependency
+DESCRIPTION: Outlines the command-line steps to install Mermaid as a project dependency using `yarn`, including global installation of `yarn` via `npm`, adding Mermaid as a regular dependency, and adding it as a development dependency.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/intro/getting-started.md#_snippet_7
+
+LANGUAGE: shell
+CODE:
+```
+npm install -g yarn
+```
+
+LANGUAGE: shell
+CODE:
+```
+yarn add mermaid
+```
+
+LANGUAGE: shell
+CODE:
+```
+yarn add --dev mermaid
+```
+
+----------------------------------------
+
+TITLE: Define a Basic Flowchart Node
+DESCRIPTION: Illustrates the simplest way to define a node in a Mermaid flowchart. The `id` specified is directly displayed as the node's text.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/docs/syntax/flowchart.md#_snippet_0
+
+LANGUAGE: mermaid-example
+CODE:
+```
+---
+title: Node
+---
+flowchart LR
+    id
+```
+
+LANGUAGE: mermaid
+CODE:
+```
+---
+title: Node
+---
+flowchart LR
+    id
+```
+
+----------------------------------------
+
+TITLE: Complete HTML Example for Basic Mermaid Usage
+DESCRIPTION: A full, self-contained HTML document demonstrating how to include a Mermaid diagram definition within a <pre> tag and load the Mermaid library via a CDN script, allowing the diagram to be rendered automatically on page load.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/config/usage.md#_snippet_3
+
+LANGUAGE: html
+CODE:
+```
+<!doctype html>
+<html lang="en">
+  <body>
+    <pre class="mermaid">
+  graph LR
+      A --- B
+      B-->C[fa:fa-ban forbidden]
+      B-->D(fa:fa-spinner);
+    </pre>
+    <script type="module">
+      import mermaid from '<CDN_URL>/mermaid@<MERMAID_VERSION>/dist/mermaid.esm.min.mjs';
+    </script>
+  </body>
+</html>
+```
+
+----------------------------------------
+
+TITLE: Complete Mermaid Kanban Diagram Example
+DESCRIPTION: A comprehensive example of a Mermaid Kanban diagram, demonstrating multiple columns, tasks with and without metadata, and a global configuration for 'ticketBaseUrl'. It showcases various task states and details.
+SOURCE: https://github.com/mermaid-js/mermaid/blob/develop/packages/mermaid/src/docs/syntax/kanban.md#_snippet_6
+
+LANGUAGE: mermaid
+CODE:
+```
+---
+config:
+  kanban:
+    ticketBaseUrl: 'https://mermaidchart.atlassian.net/browse/#TICKET#'
+---
+kanban
+  Todo
+    [Create Documentation]
+    docs[Create Blog about the new diagram]
+  [In progress]
+    id6[Create renderer so that it works in all cases. We also add some extra text here for testing purposes. And some more just for the extra flare.]
+  id9[Ready for deploy]
+    id8[Design grammar]@{ assigned: 'knsv' }
+  id10[Ready for test]
+    id4[Create parsing tests]@{ ticket: MC-2038, assigned: 'K.Sveidqvist', priority: 'High' }
+    id66[last item]@{ priority: 'Very Low', assigned: 'knsv' }
+  id11[Done]
+    id5[define getData]
+    id2[Title of diagram is more than 100 chars when user duplicates diagram with 100 char]@{ ticket: MC-2036, priority: 'Very High'}
+    id3[Update DB function]@{ ticket: MC-2037, assigned: knsv, priority: 'High' }
+
+  id12[Can't reproduce]
+    id3[Weird flickering in Firefox]
+```
