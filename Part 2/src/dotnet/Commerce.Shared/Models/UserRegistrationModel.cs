@@ -33,7 +33,7 @@ namespace Commerce.Shared.Models
             // Validate Email
             if (string.IsNullOrWhiteSpace(EmailAddress))
             {
-                errors.Add("Email address is required");
+                errors.Add("Email is required");
             }
             else
             {
@@ -61,10 +61,11 @@ namespace Commerce.Shared.Models
             }
             else
             {
-                IsPasswordValid = ValidatePasswordComplexity(Password);
+                var passwordResult = CheckPasswordComplexity(Password);
+                IsPasswordValid = passwordResult.IsValid;
                 if (!IsPasswordValid)
                 {
-                    errors.Add("Password must be at least 8 characters long and contain uppercase, lowercase, digit, and special character");
+                    errors.Add(passwordResult.Message);
                 }
             }
 
@@ -80,6 +81,52 @@ namespace Commerce.Shared.Models
 
             ValidationErrors = errors;
             return errors;
+        }
+
+        public PasswordResult CheckPasswordComplexity(string password)
+        {
+            bool isValid = true;
+            string message = "";
+
+            if (password.Length < 8)
+            {
+                isValid = false;
+                message = "Password must be at least 8 characters long";
+                return new PasswordResult(isValid, message);
+            }
+
+            bool hasUppercase = ContainsUppercase(password);
+            bool hasLowercase = ContainsLowercase(password);
+            bool hasDigit = ContainsDigit(password);
+            bool hasSpecialChar = ContainsSpecialCharacter(password);
+
+            if (!hasUppercase || !hasLowercase || !hasDigit || !hasSpecialChar)
+            {
+                isValid = false;
+                message = "Password must contain uppercase, lowercase, digit, and special character";
+            }
+
+            return new PasswordResult(isValid, message);
+        }
+
+        private bool ContainsUppercase(string password)
+        {
+            return Regex.IsMatch(password, @"[A-Z]");
+        }
+
+        private bool ContainsLowercase(string password)
+        {
+            return Regex.IsMatch(password, @"[a-z]");
+        }
+
+        private bool ContainsDigit(string password)
+        {
+            return Regex.IsMatch(password, @"\d");
+        }
+
+        private bool ContainsSpecialCharacter(string password)
+        {
+            return Regex.IsMatch(password, @"[!@#$%^&*()_+\-=\[\]{};':""\\|,.<>\/?]");
         }
 
         private bool IsValidEmailFormat(string email)
@@ -109,6 +156,18 @@ namespace Commerce.Shared.Models
             bool hasSpecialChar = Regex.IsMatch(password, @"[!@#$%^&*()_+\-=\[\]{};':""\\|,.<>\/?]");
 
             return hasUppercase && hasLowercase && hasDigit && hasSpecialChar;
+        }
+    }
+
+    public class PasswordResult
+    {
+        public bool IsValid { get; set; }
+        public string Message { get; set; }
+
+        public PasswordResult(bool isValid, string message)
+        {
+            IsValid = isValid;
+            Message = message ?? "";
         }
     }
 }

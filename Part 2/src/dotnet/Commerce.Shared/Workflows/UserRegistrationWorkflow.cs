@@ -1,8 +1,6 @@
 using Commerce.Shared.Models;
-using System.ComponentModel.DataAnnotations;
 using System.Security.Cryptography;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Commerce.Shared.Workflows
 {
@@ -10,18 +8,11 @@ namespace Commerce.Shared.Workflows
     {
         public string Execute(UserRegistrationModel model)
         {
-            var validationResult = ValidateUserInput(model.Username, model.EmailAddress, model.Password);
-            if (!validationResult.IsValid)
+            var validationErrors = model.ValidateFields();
+            if (validationErrors.Count > 0)
             {
-                LogError("Input validation failed", string.Join(", ", validationResult.Errors));
-                return string.Join(", ", validationResult.Errors);
-            }
-
-            var passwordComplexityResult = CheckPasswordComplexity(model.Password);
-            if (!passwordComplexityResult.IsValid)
-            {
-                LogError("Password complexity check failed", passwordComplexityResult.Message);
-                return passwordComplexityResult.Message;
+                LogError("Input validation failed", string.Join(", ", validationErrors));
+                return string.Join(", ", validationErrors);
             }
 
             bool userExists = CheckUserExists(model.Username);
@@ -51,66 +42,6 @@ namespace Commerce.Shared.Workflows
             return "Registration successful - please check your email for confirmation";
         }
 
-        private ValidationResult ValidateUserInput(string username, string email, string password)
-        {
-            var errors = new List<string>();
-            bool isValid = true;
-
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                errors.Add("Username is required");
-                isValid = false;
-            }
-
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                errors.Add("Email is required");
-                isValid = false;
-            }
-            else
-            {
-                bool emailValid = IsValidEmailFormat(email);
-                if (!emailValid)
-                {
-                    errors.Add("Invalid email format");
-                    isValid = false;
-                }
-            }
-
-            if (string.IsNullOrWhiteSpace(password))
-            {
-                errors.Add("Password is required");
-                isValid = false;
-            }
-
-            return new ValidationResult(isValid, errors);
-        }
-
-        private PasswordResult CheckPasswordComplexity(string password)
-        {
-            bool isValid = true;
-            string message = "";
-
-            if (password.Length < 8)
-            {
-                isValid = false;
-                message = "Password must be at least 8 characters long";
-                return new PasswordResult(isValid, message);
-            }
-
-            bool hasUppercase = ContainsUppercase(password);
-            bool hasLowercase = ContainsLowercase(password);
-            bool hasDigit = ContainsDigit(password);
-            bool hasSpecialChar = ContainsSpecialCharacter(password);
-
-            if (!hasUppercase || !hasLowercase || !hasDigit || !hasSpecialChar)
-            {
-                isValid = false;
-                message = "Password must contain uppercase, lowercase, digit, and special character";
-            }
-
-            return new PasswordResult(isValid, message);
-        }
 
         private bool CheckUserExists(string username)
         {
@@ -173,41 +104,6 @@ namespace Commerce.Shared.Workflows
             return confirmationCode;
         }
 
-        private bool IsValidEmailFormat(string email)
-        {
-            if (string.IsNullOrWhiteSpace(email))
-                return false;
-
-            try
-            {
-                var emailAttribute = new EmailAddressAttribute();
-                return emailAttribute.IsValid(email);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool ContainsUppercase(string password)
-        {
-            return Regex.IsMatch(password, @"[A-Z]");
-        }
-
-        private bool ContainsLowercase(string password)
-        {
-            return Regex.IsMatch(password, @"[a-z]");
-        }
-
-        private bool ContainsDigit(string password)
-        {
-            return Regex.IsMatch(password, @"\d");
-        }
-
-        private bool ContainsSpecialCharacter(string password)
-        {
-            return Regex.IsMatch(password, @"[!@#$%^&*()_+\-=\[\]{};':""\\|,.<>\/?]");
-        }
 
         private string HashPassword(string password)
         {
@@ -259,29 +155,6 @@ namespace Commerce.Shared.Workflows
         }
     }
 
-    public class ValidationResult
-    {
-        public bool IsValid { get; set; }
-        public List<string> Errors { get; set; }
-
-        public ValidationResult(bool isValid, List<string> errors)
-        {
-            IsValid = isValid;
-            Errors = errors ?? new List<string>();
-        }
-    }
-
-    public class PasswordResult
-    {
-        public bool IsValid { get; set; }
-        public string Message { get; set; }
-
-        public PasswordResult(bool isValid, string message)
-        {
-            IsValid = isValid;
-            Message = message ?? "";
-        }
-    }
 
     public class SaveResult
     {
